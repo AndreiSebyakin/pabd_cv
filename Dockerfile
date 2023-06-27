@@ -1,8 +1,13 @@
-FROM tensorflow/tensorflow:2.12.0
+FROM tensorflow/tensorflow:latest
+
+COPY requirements.txt .
+RUN python3 -m pip install -r requirements.txt
+
 WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY ./services ./services
-COPY ./models ./models
-ENTRYPOINT ["python"]
-CMD ["services/server_221234.py"]
+COPY models ./models
+COPY data ./data
+COPY services ./services
+
+
+ENV PYTHONPATH=/app
+ENTRYPOINT ["python", "/app/services/server_221801.py"]
